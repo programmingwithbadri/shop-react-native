@@ -1,11 +1,14 @@
 import React from 'react';
 import { FlatList, Button } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import ProductItem from '../../components/shop/ProductItem';
+import * as cartActions from '../../store/actions/cart';
 import Colors from '../../constants/Colors';
 
 const ProductsOverviewScreen = props => {
     const products = useSelector(state => state.products.availableProducts);
+    const dispatch = useDispatch();
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetail', {
@@ -13,6 +16,7 @@ const ProductsOverviewScreen = props => {
             productTitle: title
         });
     };
+
     return (
         <FlatList
             data={products}
@@ -36,11 +40,14 @@ const ProductsOverviewScreen = props => {
                     <Button
                         color={Colors.primary}
                         title="To Cart"
+                        onPress={() => {
+                            dispatch(cartActions.addToCart(itemData.item));
+                        }}
                     />
                 </ProductItem>
             )}
         />
-    )
+    );
 };
 
 ProductsOverviewScreen.navigationOptions = {

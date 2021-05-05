@@ -7,14 +7,17 @@ import {
     Button,
     StyleSheet
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import Colors from '../../constants/Colors';
+import * as cartActions from '../../store/actions/cart';
 
 const ProductDetailScreen = props => {
     const productId = props.navigation.getParam('productId');
     const selectedProduct = useSelector(state =>
         state.products.availableProducts.find(prod => prod.id === productId)
     );
+    const dispatch = useDispatch();
 
     return (
         <ScrollView>
@@ -50,11 +53,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     price: {
-        fontFamily: 'open-sans-bold',
         fontSize: 20,
         color: '#888',
         textAlign: 'center',
         marginVertical: 20,
+        fontFamily: 'open-sans-bold'
     },
     description: {
         fontFamily: 'open-sans',
